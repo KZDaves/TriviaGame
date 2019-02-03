@@ -3,52 +3,62 @@ var questions = [
 	{
 	 question: "What is the name for the skin which peels away after a sunburn?",
 	 answer: "blype", 
-	 wrong_answers: ["flake", "probustrus", "dermidon"]
+	 wrong_answers: ["flake", "probustrus", "dermidon"], 
+	 photo: "assets/images/sunburn.jpeg"
 	}, 
 	{
 	 question: "Name the WWII British deception operation in which a deceased homeless man was disguised as an officer of the Royal Marines to misdirect Nazi operatives.", 
 	 answer: "Operation Mincemeat", 
-	 wrong_answers: ["Operation Backfire", "Operation Epsilon", "Operation Hawkeye"]
+	 wrong_answers: ["Operation Backfire", "Operation Epsilon", "Operation Hawkeye"],
+	 photo: "assets/images/operationMincemeat.jpeg"
 	}, 
 	{
 	 question: "What fraction of the world's construction cranes are located in Dubai?", 
 	 answer: "1/4", 
-	 wrong_answers: ["1/3", "1/8", "1/10"]
+	 wrong_answers: ["1/3", "1/8", "1/10"],
+	 photo: "assets/images/cranes.jpeg" 
 	}, 
 	{
 	 question: "Name the two women who were divorced by Henry VIII of England.", 
 	 answer: "Catherine of Aragon and Anne of Cleves", 
-	 wrong_answers: ["Catherine Parr and Anne of Cleves", "Anne Boleyn and Catherine Howard", "Jane Seymour and Catherine Parr"]
+	 wrong_answers: ["Catherine Parr and Anne of Cleves", "Anne Boleyn and Catherine Howard", "Jane Seymour and Catherine Parr"], 
+	 photo: "assets/images/henryVIII.jpeg"
 	}, 
 	{
 	 question: "What was the original color of Oscar the Grouch?",
 	 answer: "orange", 
-	 wrong_answers: ["green", "blue", "grey"]
+	 wrong_answers: ["green", "blue", "grey"], 
+	 photo: "assets/images/oscar.jpeg"
 	}, 
 	{
 	 question: "What name was Kool-Aid originally marketed under?",
 	 answer: "Fruit Smack", 
-	 wrong_answers: ["Juice-Aid", "Fruit PUNCH", "JuiceJuice"]
+	 wrong_answers: ["Juice-Aid", "Fruit PUNCH", "JuiceJuice"], 
+	 photo: "assets/images/fruitSmack.jpeg"
 	}, 
 	{
 	 question: "What is the dot over the letter \"i\" called?", 
 	 answer: "tittle", 
-	 wrong_answers: ["dipple", "pit", "pip"]
+	 wrong_answers: ["dipple", "pit", "pip"], 
+	 photo: "assets/images/tittle.png"
 	}, 
 	{
 	 question: "What was the Cookie Monster's real name?", 
 	 answer: "Sid", 
-	 wrong_answers: ["Andrew", "Jared", "Rob"]
+	 wrong_answers: ["Andrew", "Jared", "Rob"], 
+	 photo: "assets/images/cookieMonster.jpeg"
 	}, 
 	{
 	 question: "Who invented the term \"robot\"?", 
 	 answer: "Karel Capek", 
-	 wrong_answers: ["Alan Turing", "Hedy Lamarr", "Tom Stoppard"]
+	 wrong_answers: ["Alan Turing", "Hedy Lamarr", "Tom Stoppard"], 
+	 photo: "assets/images/robot.jpeg"
 	}, 
 	{
 	 question: "The holiday song \"Good King Wenceslas\" is actually about:", 
 	 answer: "A Bohemian duke named Vaclav", 
-	 wrong_answers: ["The Great Freeze of 1894", "New Year's Day", "The Beatification of St. Stephen"]
+	 wrong_answers: ["The Great Freeze of 1894", "New Year's Day", "The Beatification of St. Stephen"], 
+	 photo: "assets/images/vaclav.jpg"
 	}
 ]; 
 var questionNumber = 0; 
@@ -107,7 +117,8 @@ function checkAnswer(n, str){
 	if(str == ""){
 		unanswered++;
 		$("p").html(`No more time to answer. <br>
-			The correct answer was ${questions[n-1].answer}`); 
+			The correct answer was ${questions[n-1].answer}<br>
+			<img src="${questions[n-1].photo}">`); 
 		$("#buttons").empty(); 
 		setTimeout(function(){
 			counter = 30;
@@ -117,7 +128,9 @@ function checkAnswer(n, str){
 	}
 	else if(str == questions[n-1].answer){
 		correct++;
-		$("p").html("That's correct!"); 
+		$("p").html(`That's correct!<br>
+			<img src="${questions[n-1].photo}">`);
+			debugger;
 		$("#buttons").empty(); 
 		setTimeout(function(){
 			counter = 30;
@@ -127,7 +140,8 @@ function checkAnswer(n, str){
 	}  
 	else{
 		incorrect++;
-		$("p").html(`Sorry, the correct answer was ${questions[n-1].answer}`); 
+		$("p").html(`Sorry, the correct answer was ${questions[n-1].answer}<br>
+			<img src="${questions[n-1].photo}">`); 
 		$("#buttons").empty(); 
 		setTimeout(function(){
 			counter = 30;
