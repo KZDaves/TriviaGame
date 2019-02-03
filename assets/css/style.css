@@ -1,0 +1,13 @@
+body{
+	background-image: url("../images/questionMarkBackground.png");
+}
+
+#container{
+	background-color: white;
+	opacity: .5;
+	margin: 0% 10% 0%; 
+}
+
+h1, h2, div{
+	text-align: center;
+}
