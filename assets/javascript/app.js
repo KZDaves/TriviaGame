@@ -1,23 +1,3 @@
-// Display question
-// 	timer counts down from 30 seconds
-// 	user chooses answer
-// 		if right
-// 			add to wins counter
-// 			confirm guess was right
-// 		if wrong
-// 			add to incorrect answers counter
-// 			give correct answer
-// 		display next question
-// 	user did not choose an anser/time ran out
-// 		add to timeout counter
-// 		show timeout
-// 		give correct answer
-// 		display next question
-// All questions given
-// 	display score
-// 	button to restart game
-
-
 var counter = 30; 
 var questions = [
 	{
@@ -26,7 +6,7 @@ var questions = [
 	 wrong_answers: ["flake", "probustrus", "dermidon"]
 	}, 
 	{
-	 question: "Name the WWII British deception operation in which a deceased homeless man was disguised as on officer of the Royal Marines to misdirect Nazi operatives.", 
+	 question: "Name the WWII British deception operation in which a deceased homeless man was disguised as an officer of the Royal Marines to misdirect Nazi operatives.", 
 	 answer: "Operation Mincemeat", 
 	 wrong_answers: ["Operation Backfire", "Operation Epsilon", "Operation Hawkeye"]
 	}, 
@@ -72,20 +52,109 @@ var questions = [
 	}
 ]; 
 var questionNumber = 0; 
+var unanswered = 0; 
+var correct = 0; 
+var incorrect = 0; 
+var countDownTimer; 
 
-//sets the coundown timer for the current question
-//moves to next question when timer runs out
-setInterval(function(){ 
-	counter--; 
-	$("#timer").html(counter);
-	if(counter==0) {
-		displayQuestion(questionNumber);
-		counter = 31;  
-	} 
-}, 1000); 
 
+//While there are still new questions, posts the next question to the page
+//Randomly sorts the possible answers, and posts them as buttons to the page
+//Starts the countdown timer. If timer gets to 0, it resets and calls the next question. 
 function displayQuestion(n){
-	if(n<questions.length-1){
-		
-	}
+	if(n<questions.length){
+		countDownTimer = 
+			setInterval(function(){ 
+				$("#timer").html(--counter);
+				if(counter==0) {
+					clearInterval(countDownTimer); 
+					checkAnswer(questionNumber, ""); 
+				} 
+			}, 1000);
+		$("p").html(questions[n].question + "<br>");
+		var answers = JSON.parse(JSON.stringify(questions[n].wrong_answers)); 
+		answers.push(questions[n].answer); 
+		answers.sort(function(a,b){ //randomizes order of answers in the array
+			return 0.5-Math.random();
+		})
+		for(var i=0; i<answers.length; i++){
+			var button = $("<button>"); 
+			button.text(answers[i]); 
+			$("p").append(button); 
+		}
+		questionNumber++; 
+	}else{
+		displayScore();
+	}	
 }
+
+//Displays final score of trivia quiz
+//Gives player option of re-starting the game
+function displayScore(){
+	clearInterval(countDownTimer); 
+	$("h2").hide(); 
+	$("p").html(`Your Score: <br>
+		Correct: ${correct} <br>
+		Incorrect: ${incorrect} <br>
+		Unanswered: ${unanswered}`); 
+	$("#buttons").html("<button>Restart</button>"); 
+}
+
+//Checks whether a user's guess is correct
+//Talies correct score counter
+//Resets countdown timer and displays next question
+function checkAnswer(n, str){
+	if(str == ""){
+		unanswered++;
+		$("p").html(`No more time to answer. <br>
+			The correct answer was ${questions[n-1].answer}`); 
+		$("#buttons").empty(); 
+		setTimeout(function(){
+			counter = 30;
+			$("#timer").html(counter);
+			displayQuestion(questionNumber); 
+		}, 3000); 		
+	}
+	else if(str == questions[n-1].answer){
+		correct++;
+		$("p").html("That's correct!"); 
+		$("#buttons").empty(); 
+		setTimeout(function(){
+			counter = 30;
+			$("#timer").html(counter);
+			displayQuestion(questionNumber); 
+		}, 2000); 
+	}  
+	else{
+		incorrect++;
+		$("p").html(`Sorry, the correct answer was ${questions[n-1].answer}`); 
+		$("#buttons").empty(); 
+		setTimeout(function(){
+			counter = 30;
+			$("#timer").html(counter);
+			displayQuestion(questionNumber); 
+			 
+		}, 2000); 
+	} 
+}
+
+//Displays first question on the page
+displayQuestion(questionNumber); 
+
+$(document).on("click", "button", function(){
+	if($(this).text()=="Restart"){
+		$("#buttons").empty(); 			
+		incorrect = 0; 
+		correct = 0; 
+		unanswered = 0; 
+		questionNumber = 0; 
+		clearInterval(countDownTimer);
+		displayQuestion(questionNumber);
+		$("h2").show(); 
+	}else{
+		clearInterval(countDownTimer);
+		checkAnswer(questionNumber, $(this).text()); 
+	}
+})
+
+

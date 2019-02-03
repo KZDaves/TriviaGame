@@ -3,11 +3,28 @@ body{
 }
 
 #container{
-	background-color: white;
-	opacity: .5;
-	margin: 0% 10% 0%; 
+	background: rgba(255, 255, 255, 0.5);
+	margin: 2% 10% 0%;
+	height: 300px; 
+	padding: 2%;
+	border-radius: 12px;
 }
 
 h1, h2, div{
 	text-align: center;
+}
+
+p{
+	font-size: 24px;
+	font-weight: bold;
+}
+
+button{
+	background: rgba(7, 80, 110, 1);
+	color: white;
+	font-weight: bold;
+	font-size: 14px;
+	margin: 1%;
+	border-radius: 12px;
+	padding: 2%;
 }
